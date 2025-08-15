@@ -16,6 +16,7 @@ interface AddLeaderModalProps {
 export interface LeaderFormData {
     firstName: string;
     lastName: string;
+    fullName?: string;
     description: string;
     categoryId: string;
     image: File | null;
@@ -278,8 +279,8 @@ export const AddLeaderModal: React.FC<AddLeaderModalProps> = ({
             <div className="flex min-h-full items-center justify-center p-1 xs:p-2 sm:p-4">
                 <div
                     className={`relative bg-white rounded-lg xs:rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-[95vw] xs:max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl max-h-[98vh] xs:max-h-[96vh] sm:max-h-[95vh] overflow-hidden border border-gray-200 transition-all duration-300 transform ${isVisible
-                            ? 'opacity-100 scale-100 translate-y-0'
-                            : 'opacity-0 scale-95 translate-y-4'
+                        ? 'opacity-100 scale-100 translate-y-0'
+                        : 'opacity-0 scale-95 translate-y-4'
                         }`}
                 >
                     {/* Header */}

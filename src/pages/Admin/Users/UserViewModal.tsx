@@ -21,6 +21,14 @@ export const UserViewModal: React.FC<UserViewModalProps> = ({
         return `${firstName.charAt(0)}${secondName.charAt(0)}`.toUpperCase();
     };
 
+    // Helper variables for easier access to nested properties
+    const isBlocked = user.block?.isBlocked || false;
+    const isDeleted = user.delete?.isDeleted || false;
+    const blockReason = user.block?.reason;
+    const deleteReason = user.delete?.reason;
+    const blockedAt = user.block?.blockedAt;
+    const deletedAt = user.delete?.deletedAt;
+
     return (
         <div className="fixed inset-0 modal-overlay flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -58,14 +66,13 @@ export const UserViewModal: React.FC<UserViewModalProps> = ({
                             </h3>
                             <p className="text-gray-600">ID: {user._id}</p>
                             <div className="flex items-center space-x-2 mt-2">
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                    user.isDeleted
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${isDeleted
                                         ? 'bg-red-100 text-red-800'
-                                        : user.isBlocked
-                                        ? 'bg-yellow-100 text-yellow-800'
-                                        : 'bg-green-100 text-green-800'
-                                }`}>
-                                    {user.isDeleted ? 'Deleted' : user.isBlocked ? 'Blocked' : 'Active'}
+                                        : isBlocked
+                                            ? 'bg-yellow-100 text-yellow-800'
+                                            : 'bg-green-100 text-green-800'
+                                    }`}>
+                                    {isDeleted ? 'Deleted' : isBlocked ? 'Blocked' : 'Active'}
                                 </span>
                                 {user.isEmailVerified && (
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -87,13 +94,16 @@ export const UserViewModal: React.FC<UserViewModalProps> = ({
                                     <p className="font-medium text-gray-900">{user.email}</p>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-3">
-                                <Phone className="w-5 h-5 text-gray-400" />
-                                <div>
-                                    <p className="text-sm text-gray-600">Phone</p>
-                                    <p className="font-medium text-gray-900">{user.phoneNumber}</p>
+                            {/* Phone number - eğer API'de varsa */}
+                            {(user as any).phoneNumber && (
+                                <div className="flex items-center space-x-3">
+                                    <Phone className="w-5 h-5 text-gray-400" />
+                                    <div>
+                                        <p className="text-sm text-gray-600">Phone</p>
+                                        <p className="font-medium text-gray-900">{(user as any).phoneNumber}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </div>
 
@@ -130,10 +140,9 @@ export const UserViewModal: React.FC<UserViewModalProps> = ({
                         <div className="space-y-3">
                             <div className="flex items-center justify-between">
                                 <span className="text-gray-600">Account Status</span>
-                                <span className={`font-medium ${
-                                    user.isDeleted ? 'text-red-600' : user.isBlocked ? 'text-yellow-600' : 'text-green-600'
-                                }`}>
-                                    {user.isDeleted ? 'Deleted' : user.isBlocked ? 'Blocked' : 'Active'}
+                                <span className={`font-medium ${isDeleted ? 'text-red-600' : isBlocked ? 'text-yellow-600' : 'text-green-600'
+                                    }`}>
+                                    {isDeleted ? 'Deleted' : isBlocked ? 'Blocked' : 'Active'}
                                 </span>
                             </div>
                             <div className="flex items-center justify-between">
@@ -142,24 +151,46 @@ export const UserViewModal: React.FC<UserViewModalProps> = ({
                                     {user.isEmailVerified ? 'Verified' : 'Not Verified'}
                                 </span>
                             </div>
-                            {user.blockReason && (
+
+                            {/* Block Information */}
+                            {isBlocked && (
                                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                                     <div className="flex items-start space-x-2">
                                         <Shield className="w-5 h-5 text-yellow-600 mt-0.5" />
-                                        <div>
-                                            <p className="text-sm font-medium text-yellow-800">Block Reason</p>
-                                            <p className="text-sm text-yellow-700">{user.blockReason}</p>
+                                        <div className="flex-1">
+                                            <p className="text-sm font-medium text-yellow-800">Account Blocked</p>
+                                            {blockReason && (
+                                                <p className="text-sm text-yellow-700 mt-1">
+                                                    <span className="font-medium">Reason:</span> {blockReason}
+                                                </p>
+                                            )}
+                                            {blockedAt && (
+                                                <p className="text-sm text-yellow-700 mt-1">
+                                                    <span className="font-medium">Blocked At:</span> {new Date(blockedAt).toLocaleString()}
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                             )}
-                            {user.deleteReason && (
+
+                            {/* Delete Information */}
+                            {isDeleted && (
                                 <div className="bg-red-50 border border-red-200 rounded-lg p-3">
                                     <div className="flex items-start space-x-2">
                                         <AlertCircle className="w-5 h-5 text-red-600 mt-0.5" />
-                                        <div>
-                                            <p className="text-sm font-medium text-red-800">Delete Reason</p>
-                                            <p className="text-sm text-red-700">{user.deleteReason}</p>
+                                        <div className="flex-1">
+                                            <p className="text-sm font-medium text-red-800">Account Deleted</p>
+                                            {deleteReason && (
+                                                <p className="text-sm text-red-700 mt-1">
+                                                    <span className="font-medium">Reason:</span> {deleteReason}
+                                                </p>
+                                            )}
+                                            {deletedAt && (
+                                                <p className="text-sm text-red-700 mt-1">
+                                                    <span className="font-medium">Deleted At:</span> {new Date(deletedAt).toLocaleString()}
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -173,12 +204,14 @@ export const UserViewModal: React.FC<UserViewModalProps> = ({
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <p className="text-sm text-gray-600">Created At</p>
-                                <p className="font-medium text-gray-900">{user.formattedCreatedAt}</p>
+                                <p className="font-medium text-gray-900">
+                                    {user.formattedCreatedAt || new Date(user.createdAt).toLocaleString()}
+                                </p>
                             </div>
                             <div>
                                 <p className="text-sm text-gray-600">Last Updated</p>
                                 <p className="font-medium text-gray-900">
-                                    {new Date(user.updatedAt).toLocaleDateString()}
+                                    {new Date(user.updatedAt).toLocaleString()}
                                 </p>
                             </div>
                         </div>

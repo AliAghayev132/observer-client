@@ -1,0 +1,6 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { Plus, Users } from 'lucide-react';
+export var AdminLeadersHeader = function (_a) {
+    var totalLeaders = _a.totalLeaders, onAddLeader = _a.onAddLeader;
+    return (_jsx("div", { className: "bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6", children: _jsxs("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4", children: [_jsxs("div", { className: "flex items-center space-x-4", children: [_jsx("div", { className: "p-3 bg-blue-100 rounded-lg", children: _jsx(Users, { className: "w-6 h-6 text-blue-600" }) }), _jsxs("div", { children: [_jsx("h1", { className: "text-2xl font-bold text-gray-900", children: "Leaders Management" }), _jsxs("p", { className: "text-gray-600 mt-1", children: ["Manage and organize your leaders (", totalLeaders, " total)"] })] })] }), _jsx("div", { className: "flex items-center space-x-3", children: _jsxs("button", { onClick: onAddLeader, className: "flex items-center space-x-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm hover:shadow-md", children: [_jsx(Plus, { className: "w-4 h-4" }), _jsx("span", { children: "Add New Leader" })] }) })] }) }));
+};

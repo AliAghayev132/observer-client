@@ -2,24 +2,25 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { adminBaseQueryWithReauth } from "../api/adminBaseQueryWithReauth";
 
-// User Types
+// User Types - Backend'den gelen nested yapı
 export interface User {
   _id: string;
   firstName: string;
+  phoneNumber?: string;
   secondName: string;
   email: string;
   birthDate: string;
   gender: "male" | "female";
   profilePicture?: string | null;
 
-  // Block information
+  // Block information (nested)
   block: {
     isBlocked: boolean;
     blockedAt?: string | null;
     reason?: string | null;
   };
 
-  // Delete information
+  // Delete information (nested)
   delete: {
     isDeleted: boolean;
     deletedAt?: string | null;
@@ -32,19 +33,11 @@ export interface User {
 
   // Computed/formatted fields (added by backend)
   formattedCreatedAt?: string;
-  isEmailVerified?: boolean; // If you have email verification logic
+  isEmailVerified?: boolean;
 }
 
-// Alternative flattened interface for easier access (if backend transforms the data)
-export interface UserFlattened {
-  _id: string;
-  firstName: string;
-  secondName: string;
-  email: string;
-  birthDate: string;
-  gender: "male" | "female";
-  profilePicture?: string | null;
-
+// Flattened interface for easier component usage
+export interface UserFlattened extends Omit<User, "block" | "delete"> {
   // Flattened block fields
   isBlocked: boolean;
   blockedAt?: string | null;
@@ -54,20 +47,24 @@ export interface UserFlattened {
   isDeleted: boolean;
   deletedAt?: string | null;
   deleteReason?: string | null;
-
-  // Timestamps
-  createdAt: string;
-  updatedAt: string;
-
-  // Computed fields
-  formattedCreatedAt?: string;
-  isEmailVerified?: boolean;
 }
+
+// Helper function to flatten user data
+export const flattenUser = (user: User): UserFlattened => ({
+  ...user,
+  isBlocked: user.block.isBlocked,
+  blockedAt: user.block.blockedAt,
+  blockReason: user.block.reason,
+  isDeleted: user.delete.isDeleted,
+  deletedAt: user.delete.deletedAt,
+  deleteReason: user.delete.reason,
+});
 
 // Update data interface for editing users
 export interface UpdateUserData {
   firstName?: string;
   secondName?: string;
+  phoneNumber?: string;
   email?: string;
   birthDate?: string;
   gender?: "male" | "female";
@@ -159,23 +156,6 @@ export interface GetUsersParams {
   sortOrder?: "asc" | "desc";
 }
 
-export interface UpdateUserData {
-  firstName?: string;
-  secondName?: string;
-  birthDate?: string;
-  email?: string;
-  phoneNumber?: string;
-  gender?: "male" | "female";
-}
-
-export interface BlockUserData {
-  reason?: string;
-}
-
-export interface DeleteUserData {
-  reason?: string;
-}
-
 // API Error Response
 export interface UserApiError {
   success: boolean;
@@ -194,7 +174,7 @@ export const adminUsersApi = createApi({
   tagTypes: ["User", "Users"],
   endpoints: (build) => ({
     // Get users with filtering and pagination
-    getUsers: build.query<UsersResponse, GetUsersParams>({
+    getUsers: build.query<UsersResponse, GetUsersParams | undefined>({
       query: (params) => {
         const searchParams = new URLSearchParams();
 

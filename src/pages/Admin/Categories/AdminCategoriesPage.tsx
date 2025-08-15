@@ -1,5 +1,4 @@
 // pages/admin/AdminCategoriesPage.tsx
-// React
 import { useState } from 'react';
 // Components
 import { CategoriesTable } from './CategoriesTable/CategoriesTable';
@@ -14,6 +13,7 @@ import {
     GetCategoriesParams,
     useGetCategoriesQuery,
     useCreateCategoryMutation,
+    CreateCategoryFormData, // ✅ Doğru interface'i import edin
 } from '@/redux/admin/categories/adminCategoriesApi';
 // Toast
 import { showLoadingToast, showSuccessToast, showErrorToast } from '@/utils/toastConfig';
@@ -37,7 +37,7 @@ export const AdminCategoriesPage = () => {
         setFilters(prev => ({
             ...prev,
             ...newFilters,
-            page: newFilters.page || 1 // Reset to page 1 when filters change (except pagination)
+            page: newFilters.page || 1
         }));
     };
 
@@ -45,20 +45,20 @@ export const AdminCategoriesPage = () => {
         setFilters(prev => ({ ...prev, page }));
     };
 
-    const handleAddCategory = async (categoryData: CategoryFormData) => {
+    // ✅ Return tipini Promise<void> yapın
+    const handleAddCategory = async (categoryData: CategoryFormData): Promise<void> => {
         const loadingToastId = showLoadingToast('Creating category...');
 
         try {
-            // Create FormData for file upload
-            const formData = new FormData();
-            formData.append('name', categoryData.name.trim());
-            formData.append('description', categoryData.description.trim());
-            if (categoryData.image) {
-                formData.append('image', categoryData.image);
-            }
+            // ✅ CreateCategoryFormData tipinde obje oluşturun
+            const createData: CreateCategoryFormData = {
+                name: categoryData.name.trim(),
+                description: categoryData.description.trim(),
+                image: categoryData.image || undefined, // null yerine undefined
+            };
 
-            // Call the RTK mutation
-            const result = await createCategory(formData as any).unwrap();
+            // ✅ Direkt createData'yı gönderin (API FormData'ya çevirecek)
+            await createCategory(createData).unwrap();
 
             // Dismiss loading toast
             toast.dismiss(loadingToastId as string);
@@ -74,7 +74,7 @@ export const AdminCategoriesPage = () => {
                 setFilters(prev => ({ ...prev, page: 1 }));
             }
 
-            return result;
+            // ✅ void return - hiçbir şey döndürmeyin
         } catch (error) {
             // Dismiss loading toast
             toast.dismiss(loadingToastId as string);
@@ -143,7 +143,7 @@ export const AdminCategoriesPage = () => {
             <AddCategoryModal
                 isOpen={isAddModalOpen}
                 onClose={handleCloseAddModal}
-                onSubmit={handleAddCategory}
+                onSubmit={handleAddCategory} // ✅ Artık tip uyumlu
                 isLoading={isCreating}
             />
         </>

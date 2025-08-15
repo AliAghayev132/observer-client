@@ -3,7 +3,11 @@ import React, { useState, useEffect, useRef } from 'react';
 // Icons
 import { X, Tag, FileText, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
 // RTK
-import { Category, useUpdateCategoryMutation } from '@/redux/admin/categories/adminCategoriesApi';
+import {
+    Category,
+    useUpdateCategoryMutation,
+    UpdateCategoryFormData // ✅ Bu interface'i import edin
+} from '@/redux/admin/categories/adminCategoriesApi';
 // Utils
 import { getCategoryImageUrl } from '@/utils/imageHandler';
 // Toast
@@ -16,7 +20,8 @@ interface CategoryEditModalProps {
     onClose: () => void;
 }
 
-interface FormData {
+// ✅ FormData interface'ini CategoryFormData olarak yeniden adlandırın
+interface CategoryFormData {
     name: string;
     description: string;
     image: File | null;
@@ -35,7 +40,8 @@ export const CategoryEditModal: React.FC<CategoryEditModalProps> = ({
 }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
-    const [formData, setFormData] = useState<FormData>({
+    // ✅ FormData yerine CategoryFormData kullanın
+    const [formData, setFormData] = useState<CategoryFormData>({
         name: '',
         description: '',
         image: null
@@ -114,12 +120,12 @@ export const CategoryEditModal: React.FC<CategoryEditModalProps> = ({
         }
 
         setErrors(newErrors);
-        
+
         if (Object.keys(newErrors).length > 0) {
             showErrorToast('Please fix the form errors');
             return false;
         }
-        
+
         return true;
     };
 
@@ -194,14 +200,14 @@ export const CategoryEditModal: React.FC<CategoryEditModalProps> = ({
         const loadingToastId = showLoadingToast('Updating category...');
 
         try {
-            const updateData = new FormData();
-            updateData.append('name', formData.name.trim());
-            updateData.append('description', formData.description.trim());
-            
-            if (formData.image) {
-                updateData.append('image', formData.image);
-            }
+            // ✅ UpdateCategoryFormData tipinde obje oluşturun
+            const updateData: UpdateCategoryFormData = {
+                name: formData.name.trim(),
+                description: formData.description.trim(),
+                image: formData.image || undefined, // null yerine undefined
+            };
 
+            // ✅ FormData yerine UpdateCategoryFormData objesi gönderin
             await updateCategory({
                 id: category._id,
                 data: updateData
@@ -211,7 +217,7 @@ export const CategoryEditModal: React.FC<CategoryEditModalProps> = ({
             showSuccessToast(`Category "${formData.name}" updated successfully!`);
             onClose();
 
-        } catch (error: any) {
+        } catch (error) {
             toast.dismiss(loadingToastId as string);
             const errorMessage = error?.data?.message || 'Failed to update category. Please try again.';
             showErrorToast(errorMessage);
@@ -239,20 +245,18 @@ export const CategoryEditModal: React.FC<CategoryEditModalProps> = ({
         <div className="fixed inset-0 z-50 overflow-y-auto">
             {/* Backdrop */}
             <div
-                className={`fixed inset-0 backdrop-blur-sm bg-white/30 transition-all duration-300 ${
-                    isVisible ? 'opacity-100' : 'opacity-0'
-                }`}
+                className={`fixed inset-0 backdrop-blur-sm bg-white/30 transition-all duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'
+                    }`}
                 onClick={!isDisabled ? handleClose : undefined}
             />
 
             {/* Modal */}
             <div className="flex min-h-full items-center justify-center p-2 sm:p-4">
                 <div
-                    className={`relative bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl max-h-[98vh] sm:max-h-[95vh] overflow-hidden border border-gray-200 transition-all duration-300 transform ${
-                        isVisible
+                    className={`relative bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl max-h-[98vh] sm:max-h-[95vh] overflow-hidden border border-gray-200 transition-all duration-300 transform ${isVisible
                             ? 'opacity-100 scale-100 translate-y-0'
                             : 'opacity-0 scale-95 translate-y-4'
-                    }`}
+                        }`}
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
@@ -361,9 +365,8 @@ export const CategoryEditModal: React.FC<CategoryEditModalProps> = ({
                                     onChange={(e) => handleNameChange(e.target.value)}
                                     placeholder="Enter category name"
                                     disabled={isDisabled}
-                                    className={`w-full p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg sm:rounded-xl border text-sm sm:text-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed ${
-                                        errors.name ? 'border-red-300' : 'border-blue-100'
-                                    }`}
+                                    className={`w-full p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg sm:rounded-xl border text-sm sm:text-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed ${errors.name ? 'border-red-300' : 'border-blue-100'
+                                        }`}
                                 />
                                 {errors.name && (
                                     <p className="text-red-500 text-xs sm:text-sm">{errors.name}</p>
@@ -383,9 +386,8 @@ export const CategoryEditModal: React.FC<CategoryEditModalProps> = ({
                                     placeholder="Enter category description..."
                                     rows={4}
                                     disabled={isDisabled}
-                                    className={`w-full p-3 sm:p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg sm:rounded-xl border text-sm sm:text-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed resize-none ${
-                                        errors.description ? 'border-red-300' : 'border-purple-100'
-                                    }`}
+                                    className={`w-full p-3 sm:p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg sm:rounded-xl border text-sm sm:text-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed resize-none ${errors.description ? 'border-red-300' : 'border-purple-100'
+                                        }`}
                                 />
                                 {errors.description && (
                                     <p className="text-red-500 text-xs sm:text-sm">{errors.description}</p>

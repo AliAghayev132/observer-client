@@ -8,14 +8,14 @@ import { showSuccessToast, showErrorToast } from '@/utils/toastConfig';
 interface AddCategoryModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (categoryData: CategoryFormData) => Promise<void>;
+    onSubmit: (categoryData: CategoryFormData) => Promise<void>; // ✅ Promise<void> olarak kalsın
     isLoading?: boolean;
 }
 
 export interface CategoryFormData {
     name: string;
     description: string;
-    image: File | null;
+    image: File | null; // ✅ null kabul etsin
 }
 
 interface FormErrors {
@@ -30,6 +30,8 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
     onSubmit,
     isLoading = false
 }) => {
+    // ... diğer state'ler aynı kalacak
+
     const [isVisible, setIsVisible] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,6 +44,8 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
     const [errors, setErrors] = useState<FormErrors>({});
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // ... useEffect'ler aynı kalacak
 
     // Animation effects
     useEffect(() => {
@@ -84,6 +88,8 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
             setIsSubmitting(false);
         }
     }, [isOpen]);
+
+    // ... diğer handler fonksiyonları aynı kalacak
 
     const handleNameChange = (value: string) => {
         setFormData(prev => ({
@@ -169,33 +175,30 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
         }
 
         setErrors(newErrors);
-        
+
         if (Object.keys(newErrors).length > 0) {
             showErrorToast('Please fix the form errors');
             return false;
         }
-        
+
         return true;
     };
 
+    // ✅ handleSubmit'i düzeltin - toast'ları kaldırın (parent'ta hallediliyor)
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!validateForm() || isSubmitting || isLoading) return;
 
         setIsSubmitting(true);
-        
+
         try {
-            await onSubmit(formData);
-            showSuccessToast('Category created successfully!');
-            onClose();
+            await onSubmit(formData); // ✅ Parent'ın toast'larını kullan
+            // ✅ Success toast'ı kaldırın - parent'ta hallediliyor
+            // onClose(); // ✅ Close'u da kaldırın - parent'ta hallediliyor
         } catch (error) {
             console.error('Error creating category:', error);
-            showErrorToast(
-                error?.message || 
-                error?.response?.data?.message || 
-                'Failed to create category. Please try again.'
-            );
+            // ✅ Error toast'ı kaldırın - parent'ta hallediliyor
         } finally {
             setIsSubmitting(false);
         }
@@ -217,20 +220,18 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
         <div className="fixed inset-0 z-50 overflow-y-auto">
             {/* Backdrop */}
             <div
-                className={`fixed inset-0 backdrop-blur-sm bg-white/30 transition-all duration-300 ${
-                    isVisible ? 'opacity-100' : 'opacity-0'
-                }`}
+                className={`fixed inset-0 backdrop-blur-sm bg-white/30 transition-all duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'
+                    }`}
                 onClick={!isDisabled ? handleClose : undefined}
             />
 
             {/* Modal */}
             <div className="flex min-h-full items-center justify-center p-2 sm:p-4">
                 <div
-                    className={`relative bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl max-h-[98vh] sm:max-h-[95vh] overflow-hidden border border-gray-200 transition-all duration-300 transform ${
-                        isVisible
-                            ? 'opacity-100 scale-100 translate-y-0'
-                            : 'opacity-0 scale-95 translate-y-4'
-                    }`}
+                    className={`relative bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl max-h-[98vh] sm:max-h-[95vh] overflow-hidden border border-gray-200 transition-all duration-300 transform ${isVisible
+                        ? 'opacity-100 scale-100 translate-y-0'
+                        : 'opacity-0 scale-95 translate-y-4'
+                        }`}
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 bg-gradient-to-r from-green-50 to-emerald-50">
@@ -256,8 +257,9 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
                         </button>
                     </div>
 
-                    {/* Form */}
+                    {/* Form - Aynı kalacak */}
                     <form onSubmit={handleSubmit} className="p-3 sm:p-4 md:p-6 overflow-y-auto max-h-[calc(98vh-140px)] sm:max-h-[calc(95vh-160px)]">
+                        {/* Form içeriği aynı kalacak... */}
                         <div className="space-y-4 sm:space-y-6">
                             {/* Image Upload */}
                             <div className="space-y-2 sm:space-y-3">
@@ -335,9 +337,8 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
                                     onChange={(e) => handleNameChange(e.target.value)}
                                     placeholder="Enter category name"
                                     disabled={isDisabled}
-                                    className={`w-full p-3 sm:p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg sm:rounded-xl border text-sm sm:text-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed ${
-                                        errors.name ? 'border-red-300' : 'border-green-100'
-                                    }`}
+                                    className={`w-full p-3 sm:p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg sm:rounded-xl border text-sm sm:text-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed ${errors.name ? 'border-red-300' : 'border-green-100'
+                                        }`}
                                 />
                                 {errors.name && (
                                     <p className="text-red-500 text-xs sm:text-sm">{errors.name}</p>
@@ -357,9 +358,8 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
                                     placeholder="Enter category description..."
                                     rows={4}
                                     disabled={isDisabled}
-                                    className={`w-full p-3 sm:p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg sm:rounded-xl border text-sm sm:text-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed resize-none ${
-                                        errors.description ? 'border-red-300' : 'border-orange-100'
-                                    }`}
+                                    className={`w-full p-3 sm:p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg sm:rounded-xl border text-sm sm:text-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed resize-none ${errors.description ? 'border-red-300' : 'border-orange-100'
+                                        }`}
                                 />
                                 {errors.description && (
                                     <p className="text-red-500 text-xs sm:text-sm">{errors.description}</p>

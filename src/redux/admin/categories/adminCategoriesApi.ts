@@ -1,4 +1,4 @@
-// redux/slices/admin/adminCategoriesApi.ts
+// src/redux/admin/categories/adminCategoriesApi.ts
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { adminBaseQueryWithReauth } from "../api/adminBaseQueryWithReauth";
 
@@ -83,17 +83,22 @@ export interface GetCategoriesParams {
   sortOrder?: "asc" | "desc";
 }
 
-export interface CreateCategoryData {
+// ✅ Form Data Interfaces - Component'ler için
+export interface CreateCategoryFormData {
   name: string;
   description?: string;
   image?: File;
 }
 
-export interface UpdateCategoryData {
+export interface UpdateCategoryFormData {
   name?: string;
   description?: string;
   image?: File;
 }
+
+// ✅ API Data Interfaces - RTK Query için
+export interface CreateCategoryData extends FormData {}
+export interface UpdateCategoryData extends FormData {}
 
 export interface BulkOperationData {
   ids: string[];
@@ -118,17 +123,15 @@ export const adminCategoriesApi = createApi({
   endpoints: (build) => ({
     // Get categories with filtering and pagination
     getCategories: build.query<CategoriesResponse, GetCategoriesParams>({
-      query: (params) => {
+      query: (params = {}) => {
         const searchParams = new URLSearchParams();
 
-        if (params?.page) searchParams.append("page", params.page.toString());
-        if (params?.limit)
-          searchParams.append("limit", params.limit.toString());
-        if (params?.status) searchParams.append("status", params.status);
-        if (params?.name) searchParams.append("name", params.name);
-        if (params?.sortBy) searchParams.append("sortBy", params.sortBy);
-        if (params?.sortOrder)
-          searchParams.append("sortOrder", params.sortOrder);
+        if (params.page) searchParams.append("page", params.page.toString());
+        if (params.limit) searchParams.append("limit", params.limit.toString());
+        if (params.status) searchParams.append("status", params.status);
+        if (params.name) searchParams.append("name", params.name);
+        if (params.sortBy) searchParams.append("sortBy", params.sortBy);
+        if (params.sortOrder) searchParams.append("sortOrder", params.sortOrder);
 
         return {
           url: `/admin/categories?${searchParams.toString()}`,
@@ -149,9 +152,20 @@ export const adminCategoriesApi = createApi({
       ],
     }),
 
-    // Create new category
-    createCategory: build.mutation<CategoryResponse, CreateCategoryData>({
-      query: (formData: CreateCategoryData) => {
+    // ✅ Create new category - FormData kabul eder
+    createCategory: build.mutation<CategoryResponse, CreateCategoryFormData>({
+      query: (data) => {
+        const formData = new FormData();
+        formData.append('name', data.name);
+        
+        if (data.description) {
+          formData.append('description', data.description);
+        }
+        
+        if (data.image) {
+          formData.append('image', data.image);
+        }
+
         return {
           url: "/admin/categories",
           method: "POST",
@@ -161,16 +175,30 @@ export const adminCategoriesApi = createApi({
       invalidatesTags: ["Categories"],
     }),
 
-    // Update category
+    // ✅ Update category - FormData kabul eder
     updateCategory: build.mutation<
       CategoryResponse,
-      { id: string; data: UpdateCategoryData }
+      { id: string; data: UpdateCategoryFormData }
     >({
       query: ({ id, data }) => {
+        const formData = new FormData();
+        
+        if (data.name !== undefined) {
+          formData.append('name', data.name);
+        }
+        
+        if (data.description !== undefined) {
+          formData.append('description', data.description);
+        }
+        
+        if (data.image) {
+          formData.append('image', data.image);
+        }
+
         return {
           url: `/admin/categories/${id}`,
           method: "PATCH",
-          body: data,
+          body: formData,
         };
       },
       invalidatesTags: (result, error, { id }) => [
@@ -236,9 +264,16 @@ export const adminCategoriesApi = createApi({
       ],
     }),
 
-    // Permanently delete category
+    // ✅ Permanently delete category - Type düzeltmesi
     permanentDeleteCategory: build.mutation<
-      { success: boolean; messages },
+      {
+        success: boolean;
+        messages: {
+          code: string;
+          httpStatus: number;
+          message: string;
+        };
+      },
       string
     >({
       query: (id) => ({

@@ -2,6 +2,9 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "module": "esnext",
+    "allowJs": true,
+    "skipLibCheck": true, // ✅ Bu satırı ekleyin
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",

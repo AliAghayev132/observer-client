@@ -4,10 +4,10 @@ import { AlertTriangle } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 // RTK
-import { 
-    useGetLeadersQuery, 
+import {
+    useGetLeadersQuery,
     useCreateLeaderMutation,
-    type CreateLeaderData 
+    type CreateLeaderData
 } from '@/redux/admin/leaders/adminLeadersApi';
 import { useGetCategoriesQuery } from '@/redux/admin/categories/adminCategoriesApi';
 import type { Leader } from '@/redux/admin/leaders/adminLeadersApi';
@@ -29,10 +29,10 @@ export const AdminLeadersPage = () => {
         error,
         isLoading,
         refetch
-    } = useGetLeadersQuery();
+    } = useGetLeadersQuery(undefined);
 
     // Get categories for the modal
-    const { data: categoriesData } = useGetCategoriesQuery();
+    const { data: categoriesData } = useGetCategoriesQuery(undefined);
 
     // Create leader mutation
     const [createLeader, { isLoading: isCreating }] = useCreateLeaderMutation();
@@ -77,10 +77,10 @@ export const AdminLeadersPage = () => {
             });
 
             setShowAddModal(false);
-            
+
         } catch (error) {
             console.error('Create leader error:', error);
-            
+
             // Error message
             await Swal.fire({
                 icon: 'error',

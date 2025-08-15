@@ -3,10 +3,15 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { adminBaseQueryWithReauth } from "../api/adminBaseQueryWithReauth";
 
 // Leader Types
+// Leader Types
 export interface Category {
   _id: string;
   name: string;
   slug: string;
+  image?: string; // ✅ Bu satırı ekleyin
+  isDeleted?: boolean; // ✅ Bu da eklenebilir
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Leader {
@@ -201,12 +206,17 @@ export const adminLeadersApi = createApi({
   tagTypes: ["Leader", "Leaders", "LeadersByCategory"],
   endpoints: (build) => ({
     // Get leaders with pagination and filters
-    getLeaders: build.query<LeadersResponse, GetLeadersParams | void>({
-      query: (params = {}) => ({
-        url: "/admin/leaders",
-        method: "GET",
-        params,
-      }),
+    getLeaders: build.query<LeadersResponse, GetLeadersParams | undefined>({
+      query: (params) => {
+        // Handle undefined params
+        const queryParams = params || {};
+
+        return {
+          url: "/admin/leaders",
+          method: "GET",
+          params: queryParams,
+        };
+      },
       providesTags: (result) =>
         result
           ? [
@@ -465,5 +475,3 @@ export const {
   useBulkRestoreLeadersMutation,
   useBulkPermanentDeleteLeadersMutation,
 } = adminLeadersApi;
-
-// Export the API reducer and middleware
