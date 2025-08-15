@@ -1,0 +1,216 @@
+{
+  "S200": {
+    "code": "S200",
+    "httpStatus": 200,
+    "message": "Request completed successfully."
+  },
+  "S201": {
+    "code": "S201",
+    "httpStatus": 201,
+    "message": "Resource created successfully."
+  },
+  "S204": {
+    "code": "S204",
+    "httpStatus": 204,
+    "message": "No content, but success."
+  },
+
+  "E400": {
+    "code": "E400",
+    "httpStatus": 400,
+    "message": "Bad request."
+  },
+  "E401": {
+    "code": "E401",
+    "httpStatus": 401,
+    "message": "Unauthorized. Please login."
+  },
+  "E403": {
+    "code": "E403",
+    "httpStatus": 403,
+    "message": "Forbidden. You do not have permission."
+  },
+  "E404": {
+    "code": "E404",
+    "httpStatus": 404,
+    "message": "Requested resource not found."
+  },
+  "E500": {
+    "code": "E500",
+    "httpStatus": 500,
+    "message": "Internal server error."
+  },
+
+  "V400": {
+    "code": "V400",
+    "httpStatus": 422,
+    "message": "Validation failed."
+  },
+  "V401": {
+    "code": "V401",
+    "httpStatus": 422,
+    "message": "Required fields missing."
+  },
+  "V402": {
+    "code": "V402",
+    "httpStatus": 422,
+    "message": "Invalid email format."
+  },
+  "V403": {
+    "code": "V403",
+    "httpStatus": 422,
+    "message": "Password is too weak."
+  },
+  "V404": {
+    "code": "V404",
+    "httpStatus": 422,
+    "message": "Invalid request parameters."
+  },
+
+  "DB400": {
+    "code": "DB400",
+    "httpStatus": 500,
+    "message": "Database connection failed."
+  },
+  "DB401": {
+    "code": "DB401",
+    "httpStatus": 500,
+    "message": "Duplicate key error."
+  },
+  "DB404": {
+    "code": "DB404",
+    "httpStatus": 404,
+    "message": "Record not found in database."
+  },
+  "DB500": {
+    "code": "DB500",
+    "httpStatus": 500,
+    "message": "Database query error."
+  },
+
+  "A400": {
+    "code": "A400",
+    "httpStatus": 401,
+    "message": "Invalid token."
+  },
+  "A401": {
+    "code": "A401",
+    "httpStatus": 401,
+    "message": "Token expired."
+  },
+  "A403": {
+    "code": "A403",
+    "httpStatus": 403,
+    "message": "Access denied. Insufficient role."
+  },
+  "A404": {
+    "code": "A404",
+    "httpStatus": 401,
+    "message": "Refresh token is invalid."
+  },
+  "V405": {
+    "code": "V405",
+    "httpStatus": 422,
+    "message": "Invalid phone number format."
+  },
+  "V406": {
+    "code": "V406",
+    "httpStatus": 422,
+    "message": "Invalid gender value. Must be 'male' or 'female'."
+  },
+  "V104": {
+    "code": "V104",
+    "httpStatus": 422,
+    "message": "Birthdate is not valid or missing."
+  },
+  "V408": {
+    "code": "V408",
+    "httpStatus": 422,
+    "message": "OTP code is required."
+  },
+  "V409": {
+    "code": "V409",
+    "httpStatus": 422,
+    "message": "OTP code must be 4 digits."
+  },
+  "V100": {
+    "code": "V100",
+    "httpStatus": 400,
+    "message": "Required fields cannot be empty."
+  },
+  "V101": {
+    "code": "V101",
+    "httpStatus": 422,
+    "message": "Invalid email address."
+  },
+  "V105": {
+    "code": "V105",
+    "httpStatus": 422,
+    "message": "Invalid phone number format."
+  },
+  "E402": {
+    "code": "E402",
+    "httpStatus": 400,
+    "message": "User already exists."
+  },
+  "E405": {
+    "code": "E405",
+    "httpStatus": 400,
+    "message": "OTP verification failed."
+  },
+  "E407": {
+    "code": "E407",
+    "httpStatus": 400,
+    "message": "Incorrect password."
+  },
+  "V103": {
+    "code": "V103",
+    "httpStatus": 422,
+    "message": "Password is too weak. It must be at least 8 characters long and contain uppercase, lowercase, number, and symbol."
+  },
+  "E406": {
+    "code": "E406",
+    "httpStatus": 403,
+    "message": "Account is not confirmed. Please contact the administrator."
+  },
+  "S202": {
+    "code": "S202",
+    "httpStatus": 200,
+    "message": "User updated successfully."
+  },
+  "S203": {
+    "code": "S203",
+    "httpStatus": 200,
+    "message": "User blocked successfully."
+  },
+  "S204_USER": {
+    "code": "S204_USER",
+    "httpStatus": 200,
+    "message": "User unblocked successfully."
+  },
+  "S205": {
+    "code": "S205",
+    "httpStatus": 200,
+    "message": "User soft-deleted successfully."
+  },
+  "S206": {
+    "code": "S206",
+    "httpStatus": 200,
+    "message": "User restored successfully."
+  },
+  "S207": {
+    "code": "S207",
+    "httpStatus": 200,
+    "message": "User permanently deleted."
+  },
+  "E409": {
+    "code": "E409",
+    "httpStatus": 400,
+    "message": "Phone number is already in use by another user."
+  },
+  "E410": {
+    "code": "E410",
+    "httpStatus": 400,
+    "message": "Email is already in use by another user."
+  }
+}

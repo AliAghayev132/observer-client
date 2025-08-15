@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+/* #region Fonts - Hybrid Setup */
+
+/* Tailwind-friendly tek aile */
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/InterThin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/InterExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/InterRegular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/InterMedium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/InterSemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/InterBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/InterExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/InterBlack.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Eski ayrı isimler - Tailwind dışı kullanımlar için */
+@font-face {
+  font-family: "InterThin";
+  src: url("@/assets/fonts/InterThin.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InterExtraLight";
+  src: url("@/assets/fonts/InterExtraLight.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InterRegular";
+  src: url("@/assets/fonts/InterRegular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InterMedium";
+  src: url("@/assets/fonts/InterMedium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InterSemiBold";
+  src: url("@/assets/fonts/InterSemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InterBold";
+  src: url("@/assets/fonts/InterBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InterExtraBold";
+  src: url("@/assets/fonts/InterExtraBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InterBlack";
+  src: url("@/assets/fonts/InterBlack.ttf") format("truetype");
+}
+
+/* Tailwind için default font */
+@theme {
+  --font-inter: "Inter", sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-inter);
+  }
+}
+
+/* #endregion */
+
+
+/* #region Reset & Layout */
+
+body {
+  background: radial-gradient(50% 50% at 50% 50%, #fff 0%, #e0dac3 100%);
+  color: #222;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.4s;
+}
+
+main {
+  padding: 50px 0;
+  min-height: 100vh;
+}
+
+:root {
+  scroll-behavior: smooth;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  /* Account for fixed navbar */
+}
+
+/* #endregion */
+
+
+/* #region Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8f6ec;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #9CA982 0%, #7d8a65 100%);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #7d8a65 0%, #9CA982 100%);
+}
+
+/* #endregion */
+
+
+/* #region Scroll Animations */
+@keyframes scrollFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes scrollSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scrollSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(50px) scale(0.95);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.scroll-slide-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.scroll-slide-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-slide-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.scroll-slide-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-scale-in {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-scale-in.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.scroll-stagger-1 {
+  transition-delay: 0.1s;
+}
+
+.scroll-stagger-2 {
+  transition-delay: 0.2s;
+}
+
+.scroll-stagger-3 {
+  transition-delay: 0.3s;
+}
+
+.scroll-stagger-4 {
+  transition-delay: 0.4s;
+}
+
+.scroll-stagger-5 {
+  transition-delay: 0.5s;
+}
+
+.scroll-stagger-6 {
+  transition-delay: 0.6s;
+}
+
+/* #endregion */
+
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #9CA982 #f8f6ec;
+}
+
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}

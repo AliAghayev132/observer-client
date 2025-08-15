@@ -1,0 +1,378 @@
+/* --- Desktop Navbar --- */
+.navbar {
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #eae4c8;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 12px rgba(224, 218, 195, 0.07);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 64px;
+    transition: box-shadow 0.2s;
+}
+
+.navbarInner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 32px;
+}
+
+.navbarLogo {
+    font-size: 1.5rem;
+    font-family: "InterBold", sans-serif;
+    color: #9CA982;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    margin-right: 32px;
+    transition: color 0.2s;
+}
+
+.navbarLogo:hover {
+    color: #222;
+}
+
+.navbarLinks {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    transition: gap 0.2s;
+}
+
+.navbarLinks a,
+.navLink {
+    text-decoration: none;
+    color: #7d7d7d;
+    font-family: "InterMedium", sans-serif;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-bottom: 2px solid transparent;
+    border-radius: 2px;
+    transition: color 0.2s, border-bottom 0.2s, background 0.2s;
+    position: relative;
+}
+
+.navbarLinks a.active,
+.navbarLinks a:hover,
+.navLink.active,
+.navLink:hover {
+    color: #222;
+    border-bottom: 2px solid #9CA982;
+    background: #f8f6ec;
+}
+
+.active {
+    color: #222 !important;
+    border-bottom: 2px solid #9CA982 !important;
+    background: #f8f6ec !important;
+}
+
+.navbarProfile {
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+}
+
+.profileLink {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.profileLink:hover {
+    background: #f8f6ec;
+}
+
+.profileContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profileIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    transition: box-shadow 0.2s;
+    border: 2px solid #9CA982;
+}
+
+.profileIcon:hover {
+    box-shadow: 0 4px 16px rgba(156, 169, 130, 0.18);
+}
+
+.profileName {
+    font-size: 14px;
+    font-weight: 500;
+    color: #222;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.navbarAuth {
+    margin-left: 8px;
+}
+
+.navbarAuth a,
+.authLink {
+    color: #9CA982 !important;
+    font-family: "InterSemiBold", sans-serif !important;
+    border-bottom: none !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    background: #f8f6ec !important;
+    margin-left: 8px !important;
+    transition: color 0.2s, background 0.2s !important;
+    text-decoration: none;
+}
+
+.navbarAuth a:hover,
+.authLink:hover {
+    color: #fff !important;
+    background: #9CA982 !important;
+}
+
+.logoutButton {
+    color: #9CA982;
+    font-family: "InterSemiBold", sans-serif;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #f8f6ec;
+    margin-left: 8px;
+    transition: color 0.2s, background 0.2s;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logoutButton:hover {
+    color: #fff;
+    background: #dc3545;
+}
+
+/* --- Mobile Navbar --- */
+.navbarMobileToggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    margin-left: auto;
+    z-index: 101;
+}
+
+.navbarMobileToggle span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    background: #222;
+    margin: 4px 0;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+/* Active toggle animation */
+.navbarMobileToggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.navbarMobileToggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbarMobileToggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Show class for mobile menu */
+.show {
+    display: flex !important;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .navbarInner {
+        padding: 0 16px;
+        justify-content: space-between;
+    }
+
+    .navbarMobileToggle {
+        display: flex;
+        margin-right: 0;
+    }
+
+    .navbarLinks {
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        gap: 0;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+        display: none;
+        z-index: 1000;
+        animation: fadeIn 0.3s;
+        padding: 0;
+    }
+
+    .navbarLinks.show {
+        display: flex;
+    }
+
+    .navbarLinks li {
+        width: 100%;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        padding: 0;
+    }
+
+    .navbarLinks a,
+    .navLink,
+    .profileLink,
+    .authLink {
+        display: block;
+        width: 100%;
+        padding: 16px 24px !important;
+        border-bottom: none !important;
+        background: transparent !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    .navbarLinks a:hover,
+    .navLink:hover,
+    .profileLink:hover,
+    .authLink:hover {
+        background: #f8f6ec !important;
+        color: #9CA982 !important;
+    }
+
+    .navbarProfile {
+        justify-content: flex-start !important;
+        align-items: center !important;
+        display: flex !important;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0;
+    }
+
+    .profileContainer {
+        gap: 12px;
+    }
+
+    .profileName {
+        display: block;
+        max-width: none;
+        font-size: 16px;
+    }
+
+    .navbarAuth {
+        display: flex;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .logoutButton {
+        display: block;
+        width: 100%;
+        padding: 16px 24px !important;
+        margin: 0 !important;
+        text-align: left;
+        background: transparent !important;
+        border-radius: 0 !important;
+        border: none;
+    }
+
+    .logoutButton:hover {
+        background: #f8f6ec !important;
+        color: #dc3545 !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbarInner {
+        padding: 0 12px;
+    }
+
+    .profileName {
+        font-size: 14px;
+    }
+}
+
+/* Add these styles to your existing Navbar.module.css */
+
+.profileIconPlaceholder {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ddd;
+}
+
+.profileIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #9CA982;
+}
+
+/* Update existing profileContainer if needed */
+.profileContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profileName {
+    font-weight: 500;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+
+    .profileIcon,
+    .profileIconPlaceholder {
+        width: 28px;
+        height: 28px;
+    }
+}
