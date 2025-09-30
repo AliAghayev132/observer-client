@@ -3,8 +3,8 @@ import { useState } from "react";
 // Images
 import HeroImage from "@/assets/images/image.png";
 // API
-import { FeaturedCategories } from "./FeaturedCategories/FeaturedCategories";
 import { motion, cubicBezier } from "framer-motion";
+import { FeaturedCategories } from "./FeaturedCategories/FeaturedCategories";
 
 export const HomePage = () => {
   const [openFaq, setOpenFaq] = useState(0);

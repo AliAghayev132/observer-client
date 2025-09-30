@@ -34,7 +34,7 @@
     flex-direction: column;
     gap: 22px;
     margin-bottom: 18px;
-    animation: scaleIn 0.8s ease-out 0.2s both;
+    animation: scaleIn 0.5s ease 0.2s both;
 }
 
 .contactForm input,

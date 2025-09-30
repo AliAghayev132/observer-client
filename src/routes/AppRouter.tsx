@@ -8,8 +8,6 @@ import {
 // User Pages
 import { LoginPage } from "@/pages/User/Login/LoginPage";
 import { NotFoundPage } from "@/pages/User/Error/ErrorPage";
-import { ExplorePage } from "@/pages/User/Explore/ExplorePage";
-import { ContactPage } from "@/pages/User/Contact/ContactPage";
 import { ProfilePage } from "@/pages/User/Profile/ProfilePage";
 import { RegisterStepOnePage } from "@/pages/User/RegisterStepOne/RegisterStepOnePage";
 import { RegisterStepTwoPage } from "@/pages/User/RegisterStepTwo/RegisterStepTwoPage";
@@ -30,6 +28,8 @@ import { AdminLayout } from "@/components/layouts/Admin/AdminLayout";
 import { AdminProtectedRoute } from "./AdminProtectedRoute";
 import { AdminLoginPage } from "@/pages/Admin/Login/AdminLoginPage";
 import { HomePage } from "@/pages/User/Home/HomePage";
+import { ExplorePage } from "@/pages/User/Explore/ExplorePage";
+import { ContactPage } from "@/pages/User/Contact/ContactPage";
 
 export const AppRouter = () => {
     return (
