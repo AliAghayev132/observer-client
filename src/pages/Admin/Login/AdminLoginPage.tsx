@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router';
 // Icons
 import { Eye, EyeOff, Lock, User, Shield } from 'lucide-react';
 // Components
-import { LoadingSpinner } from '@/components/LoadingSpinner/LoadingSpinner';
 // Utils
 import {
     showErrorToast,
@@ -18,6 +17,7 @@ import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useAdminLoginMutation, useAdminRefreshTokenMutation } from '@/redux/admin/auth/adminAuthApi';
+import { LoadingSpinner } from '@/components/LoadingSpinner/LoadingSpinner';
 
 export const AdminLoginPage = () => {
     const [formData, setFormData] = useState({

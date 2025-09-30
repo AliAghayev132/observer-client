@@ -1,56 +1,46 @@
-import styles from "./Footer.module.css";
-
 export const Footer = () => {
     return (
-        <footer className={styles.footer2}>
-            <div className={styles.footer2Top}>
-                <div className={styles.footer2Cols}>
-                    <div className={styles.footer2Col}>
-                        <h4>Product</h4>
-                        <ul>
-                            <li><a href="#">Landing Page</a></li>
-                            <li><a href="#">Popup Builder</a></li>
-                            <li><a href="#">Web-design</a></li>
-                            <li><a href="#">Content</a></li>
-                            <li><a href="#">Integrations</a></li>
+        <footer className="mt-20 border-t border-black/10 bg-white/60 backdrop-blur-sm">
+            <div className="mx-auto max-w-6xl px-4 py-12">
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                    <div>
+                        <h4 className="text-sm font-semibold tracking-wide text-neutral-900">Product</h4>
+                        <ul className="mt-4 space-y-2 text-sm text-neutral-600">
+                            <li><a className="hover:text-[#7d8a65]" href="#">Landing Page</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Popup Builder</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Web-design</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Content</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Integrations</a></li>
                         </ul>
                     </div>
-                    <div className={styles.footer2Col}>
-                        <h4>Use Cases</h4>
-                        <ul>
-                            <li><a href="#">Web-designers</a></li>
-                            <li><a href="#">Marketers</a></li>
-                            <li><a href="#">Small Business</a></li>
-                            <li><a href="#">Website Builder</a></li>
+                    <div>
+                        <h4 className="text-sm font-semibold tracking-wide text-neutral-900">Use Cases</h4>
+                        <ul className="mt-4 space-y-2 text-sm text-neutral-600">
+                            <li><a className="hover:text-[#7d8a65]" href="#">Web-designers</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Marketers</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Small Business</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Website Builder</a></li>
                         </ul>
                     </div>
-                    <div className={styles.footer2Col}>
-                        <h4>Resources</h4>
-                        <ul>
-                            <li><a href="#">Academy</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Themes</a></li>
+                    <div>
+                        <h4 className="text-sm font-semibold tracking-wide text-neutral-900">Policy</h4>
+                        <ul className="mt-4 space-y-2 text-sm text-neutral-600">
+                            <li><a className="hover:text-[#7d8a65]" href="#">Privacy Policy</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Terms of Use</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Sales and Refunds</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Legal</a></li>
                         </ul>
                     </div>
-                    <div className={styles.footer2Col}>
-                        <h4>Company</h4>
-                        <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">FAQs</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                    <div>
+                        <h4 className="text-sm font-semibold tracking-wide text-neutral-900">Company</h4>
+                        <ul className="mt-4 space-y-2 text-sm text-neutral-600">
+                            <li><a className="hover:text-[#7d8a65]" href="#">About Us</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Careers</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">FAQs</a></li>
+                            <li><a className="hover:text-[#7d8a65]" href="#">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>
-            </div>
-            <hr className={styles.footer2Divider} />
-            <div className={styles.footer2Bottom}>
-                <ul className={styles.footer2Links}>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Use</a></li>
-                    <li><a href="#">Sales and Refunds</a></li>
-                    <li><a href="#">Legal</a></li>
-                </ul>
             </div>
         </footer>
     )

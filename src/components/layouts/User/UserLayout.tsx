@@ -9,12 +9,11 @@ import { RootState } from "@/redux/store";
 import { useLazyGetUserQuery } from "@/redux/user/account/userAccountApi";
 import { useUserRefreshTokenMutation } from "@/redux/user/auth/userAuthApi";
 // Components
-import { Footer } from "./Footer/Footer";
-import { Navbar } from "./Navbar/Navbar";
-import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
 // Hooks
+import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
+import { Navbar } from "./Navbar/Navbar";
+import { Footer } from "./Footer/Footer";
 import { useUser } from "@/hooks/useUser";
-
 export const UserLayout = () => {
     const { isAuthenticated, accessToken } = useSelector((state: RootState) => state.userAuth);
     const user = useUser();
@@ -47,7 +46,7 @@ export const UserLayout = () => {
     const isLoading = isInitializing || isRefreshLoading || isGetUserLoading;
 
     if (isLoading) {
-        return <LoadingSpinner text="Loading..." />;
+        return <LoadingSpinner text="" />;
     }
 
     return (

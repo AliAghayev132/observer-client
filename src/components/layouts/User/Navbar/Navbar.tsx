@@ -175,10 +175,10 @@ export const Navbar = () => {
                                     className={styles.authLink}
                                     onClick={closeMenu}
                                 >
-                                    Login
+                                    Sign In
                                 </Link>
                             </li>
-                            <li className={styles.navbarAuth}>
+                            {/* <li className={styles.navbarAuth}>
                                 <Link
                                     to="/register-step-one"
                                     className={styles.authLink}
@@ -186,7 +186,7 @@ export const Navbar = () => {
                                 >
                                     Register
                                 </Link>
-                            </li>
+                            </li> */}
                         </>
                     )}
                 </ul>

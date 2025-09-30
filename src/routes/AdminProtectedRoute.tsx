@@ -9,8 +9,8 @@ import { RootState } from "@/redux/store";
 import { useAdminRefreshTokenMutation } from "@/redux/admin/auth/adminAuthApi";
 // Toast
 import { Toaster } from "react-hot-toast";
-// Components
 import { LoadingSpinner } from "@/components/LoadingSpinner/LoadingSpinner";
+// Components
 
 export const AdminProtectedRoute = () => {
     const { isAuthenticated, accessToken } = useSelector((state: RootState) => state.adminAuth);

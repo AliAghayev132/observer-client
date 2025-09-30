@@ -6,7 +6,6 @@ import {
 } from "react-router";
 
 // User Pages
-import { HomePage } from "@/pages/User/Home/HomePage";
 import { LoginPage } from "@/pages/User/Login/LoginPage";
 import { NotFoundPage } from "@/pages/User/Error/ErrorPage";
 import { ExplorePage } from "@/pages/User/Explore/ExplorePage";
@@ -17,7 +16,6 @@ import { RegisterStepTwoPage } from "@/pages/User/RegisterStepTwo/RegisterStepTw
 import { RegisterStepThreePage } from "@/pages/User/RegisterStepThree/RegisterStepThreePage";
 
 // Admin Pages
-import { AdminLoginPage } from "@/pages/Admin/Login/AdminLoginPage";
 import { AdminUsersPage } from "@/pages/Admin/Users/AdminUsersPage";
 import { AdminSystemPage } from "@/pages/Admin/System/AdminSystemPage";
 import { AdminLeadersPage } from "@/pages/Admin/Leaders/AdminLeadersPage";
@@ -30,6 +28,8 @@ import { AdminLayout } from "@/components/layouts/Admin/AdminLayout";
 
 // Routes
 import { AdminProtectedRoute } from "./AdminProtectedRoute";
+import { AdminLoginPage } from "@/pages/Admin/Login/AdminLoginPage";
+import { HomePage } from "@/pages/User/Home/HomePage";
 
 export const AppRouter = () => {
     return (
