@@ -1,0 +1,63 @@
+name: Deploy React Vite App (observer)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SECRET_KEY }}
+          script: |
+            set -euo pipefail
+
+            # Sunucudaki observer client dizini
+            CWD="/var/www/observer/client"
+
+            # Sunucudaki pnpm yolu (sunucuda `which pnpm` ile doğrula)
+            PNPM_BIN="/root/.nvm/versions/node/v22.19.0/bin/pnpm"
+            if [ ! -x "$PNPM_BIN" ]; then
+              echo "❌ pnpm bulunamadı: $PNPM_BIN"
+              exit 1
+            fi
+            export PATH="$(dirname "$PNPM_BIN"):$PATH"
+
+            echo "➡️ Pull latest..."
+            cd "$CWD"
+            git fetch --all --prune
+            git reset --hard origin/main
+
+            echo "🔎 Versions"
+            node -v || true
+            "$PNPM_BIN" -v || true
+
+            echo "📦 Install deps (pnpm)..."
+            if [ -f pnpm-lock.yaml ]; then
+              "$PNPM_BIN" install --frozen-lockfile --prefer-offline
+            else
+              "$PNPM_BIN" install --prefer-offline
+            fi
+
+            echo "🏗 Build (Vite)..."
+            "$PNPM_BIN" build
+
+            echo "🔍 Verify dist/"
+            if [ ! -d "dist" ]; then
+              echo "❌ dist klasörü oluşmadı. Build başarısız."
+              exit 1
+            fi
+            ls -la dist || true
+
+            echo "🔁 Restart Nginx"
+            sudo systemctl restart nginx
